@@ -19,7 +19,7 @@ class FlickrFetchr {
     // при создании FlickrFetchr создается экземпляр Retrofit
     init {
         val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("https://www.flickr.com/")
+            .baseUrl("https://api.flickr.com/")
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
 
@@ -27,10 +27,10 @@ class FlickrFetchr {
     }
 
     // функция ставит в очередь сетевой запрос и обертывает результат в LiveData
-    fun fetchContents(): LiveData<String> {
+    fun fetchPhotos(): LiveData<String> {
 
         val responseLiveData: MutableLiveData<String> = MutableLiveData()
-        val flickrRequest: Call<String> = flickrApi.fetchContents()
+        val flickrRequest: Call<String> = flickrApi.fetchPhotos()
 
         // установка в очередь
         flickrRequest.enqueue(object : Callback<String> {
@@ -38,6 +38,7 @@ class FlickrFetchr {
             override fun onFailure(call: Call<String>, t: Throwable) {
                 Log.e(TAG, "Failed to fetch photos", t)
             }
+
             override fun onResponse(
                 call: Call<String>,
                 response: Response<String>

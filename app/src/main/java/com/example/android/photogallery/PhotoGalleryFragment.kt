@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import retrofit2.Call
 
 private const val TAG = "PhotoGalleryFragment"
 
@@ -23,7 +21,7 @@ class PhotoGalleryFragment : Fragment() {
 
         /** получение данных из "репозитория" FlickrFetchr
          * и наблюдение за объектом LiveData */
-        val flickrLiveData: LiveData<String> = FlickrFetchr().fetchContents()
+        val flickrLiveData: LiveData<String> = FlickrFetchr().fetchPhotos()
         flickrLiveData.observe(this) { responseString ->
             Log.d(TAG, "Response received: $responseString")
         }
