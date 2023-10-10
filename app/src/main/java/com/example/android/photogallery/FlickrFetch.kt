@@ -18,7 +18,8 @@ class FlickrFetch {
 
     private val flickrApi: FlickrApi
 
-    // при создании FlickrFetch создается экземпляр Retrofit
+    /** при создании FlickrFetch создается экземпляр Retrofit */
+
     init {
         val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl("https://api.flickr.com/")
@@ -28,7 +29,8 @@ class FlickrFetch {
         flickrApi = retrofit.create(FlickrApi::class.java)
     }
 
-    // функция ставит в очередь сетевой запрос и обертывает результат в LiveData
+    /** функция ставит в очередь сетевой запрос и обертывает результат в LiveData */
+
     fun fetchPhotos(): LiveData<List<GalleryItem>> {
 
         val responseLiveData: MutableLiveData<List<GalleryItem>> = MutableLiveData()
