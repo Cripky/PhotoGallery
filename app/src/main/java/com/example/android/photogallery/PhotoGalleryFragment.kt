@@ -19,9 +19,9 @@ class PhotoGalleryFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /** получение данных из "репозитория" FlickrFetchr
+        /** получение данных из "репозитория" FlickrFetch
          * и наблюдение за объектом LiveData */
-        val flickrLiveData: LiveData<String> = FlickrFetchr().fetchPhotos()
+        val flickrLiveData: LiveData<List<GalleryItem>> = FlickrFetch().fetchPhotos()
         flickrLiveData.observe(this) { responseString ->
             Log.d(TAG, "Response received: $responseString")
         }

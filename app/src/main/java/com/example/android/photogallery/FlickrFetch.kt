@@ -14,11 +14,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private const val TAG = "FlickrFetchr"
 
-class FlickrFetchr {
+class FlickrFetch {
 
     private val flickrApi: FlickrApi
 
-    // при создании FlickrFetchr создается экземпляр Retrofit
+    // при создании FlickrFetch создается экземпляр Retrofit
     init {
         val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl("https://api.flickr.com/")

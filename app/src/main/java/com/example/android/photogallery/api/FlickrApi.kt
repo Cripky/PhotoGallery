@@ -6,8 +6,8 @@ import retrofit2.http.GET
 interface FlickrApi {
 
     /** аннотация метода HTTP-запроса.
-     * Указание типа Call<String> инструктирует Retrofit,
-     * чтобы ответ десериализовался в объект String */
+     * Указание типа Call<FlickrResponse> инструктирует Retrofit,
+     * чтобы ответ десериализовался в объект FlickrResponse */
     @GET(
         "services/rest/?method=flickr.interestingness.getList" +
                 "&api_key=2e5a9fdb9e0131dd1944bbc1c527cb56" +
