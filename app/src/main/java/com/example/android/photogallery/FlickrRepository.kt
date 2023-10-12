@@ -20,7 +20,7 @@ private const val TAG = "FlickrFetchr"
 
 /** класс репозитория */
 
-class FlickrFetch {
+class FlickrRepository {
 
     private val flickrApi: FlickrApi
 
