@@ -31,9 +31,8 @@ class PhotoGalleryFragment : Fragment() {
 
         thumbnailDownloader = ThumbnailDownloader()
 
-        /** Вызов lifecycle.addObserver(thumbnailDownloader) подписывает экземпляр загрузчика эскизов
-         * на получение обратных вызовов жизненного цикла фрагмента.
-         * При вызове функции onCreate() вызывается функция ThumbnailDownloader.setup() */
+        /** Вызов lifecycle.addObserver() подписывает экземпляр загрузчика эскизов
+         * на получение обратных вызовов жизненного цикла фрагмента */
 
         lifecycle.addObserver(thumbnailDownloader.fragmentLifecycleObserver)
 
@@ -61,7 +60,7 @@ class PhotoGalleryFragment : Fragment() {
         }
     }
 
-    /** Функция lifecycle.removeObserver(thumbnailDownloader) в onDestroy() вызывается для
+    /** Функция lifecycle.removeObserver() в onDestroy() вызывается для
      * снятия thumbnailDownloader с роли наблюдателя за жизненным циклом
      * при уничтожении экземпляра фрагмента */
 
