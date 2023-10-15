@@ -20,6 +20,9 @@ interface FlickrApi {
     )
     fun fetchPhotos(): Call<FlickrResponse>
 
+    /** Использование аннотации @GET в сочетании с аннотацией @Url приводит к тому,
+     * что Retrofit полностью переопределяет базовый URL.
+     * Вместо этого Retrofit будет использовать URL, переданный в функцию fetchUrlBytes() */
     @GET
     fun fetchUrlBytes(@Url url: String): Call<ResponseBody>
 }

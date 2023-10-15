@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.android.photogallery.FlickrRepository
 import com.example.android.photogallery.GalleryItem
 
-/** получение данных из "репозитория" FlickrFetch */
+/** получение данных из "репозитория" FlickrRepository */
 
 class PhotoGalleryViewModel : ViewModel() {
 

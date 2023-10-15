@@ -30,6 +30,11 @@ class PhotoGalleryFragment : Fragment() {
         photoGalleryViewModel = ViewModelProvider(this)[PhotoGalleryViewModel::class.java]
 
         thumbnailDownloader = ThumbnailDownloader()
+
+        /** Вызов lifecycle.addObserver(thumbnailDownloader) подписывает экземпляр загрузчика эскизов
+         * на получение обратных вызовов жизненного цикла фрагмента.
+         * При вызове функции onCreate() вызывается функция ThumbnailDownloader.setup() */
+
         lifecycle.addObserver(thumbnailDownloader)
 
     }
@@ -55,6 +60,10 @@ class PhotoGalleryFragment : Fragment() {
             photoRecyclerView.adapter = PhotoAdapter(galleryItems)
         }
     }
+
+    /** Функция lifecycle.removeObserver(thumbnailDownloader) в onDestroy() вызывается для
+     * снятия thumbnailDownloader с роли наблюдателя за жизненным циклом
+     * при уничтожении экземпляра фрагмента */
 
     override fun onDestroy() {
         super.onDestroy()

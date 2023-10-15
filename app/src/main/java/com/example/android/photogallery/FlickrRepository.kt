@@ -16,7 +16,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val TAG = "FlickrFetchr"
+private const val TAG = "FlickrRepository"
 
 /** класс репозитория */
 
@@ -24,7 +24,7 @@ class FlickrRepository {
 
     private val flickrApi: FlickrApi
 
-    /** при создании FlickrFetch создается экземпляр Retrofit */
+    /** при создании FlickrRepository создается экземпляр Retrofit */
 
     init {
         val retrofit: Retrofit = Retrofit.Builder()
@@ -67,7 +67,8 @@ class FlickrRepository {
         return responseLiveData
     }
 
-    /** функция загружает данные по заданному URL-адресу и декодирует их в изображение Bitmap */
+    /** функция загружает данные по заданному URL-адресу и декодирует их в изображение Bitmap.
+     * Аннотация @WorkerThread указывает, что функция должна вызываться только в фоновом потоке */
 
     @WorkerThread
     fun fetchPhoto(url: String): Bitmap? {
