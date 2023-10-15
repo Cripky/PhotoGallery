@@ -7,9 +7,6 @@ import android.os.Message
 import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
 import java.util.concurrent.ConcurrentHashMap
 
 private const val TAG = "ThumbnailDownloader"
@@ -19,7 +16,28 @@ private const val TAG = "ThumbnailDownloader"
 
 private const val MESSAGE_DOWNLOAD = 0
 
-class ThumbnailDownloader<in T> : HandlerThread(TAG), LifecycleObserver {
+class ThumbnailDownloader<in T> : HandlerThread(TAG) {
+
+    // observer за жизненным циклом фрагмента
+    val fragmentLifecycleObserver: LifecycleEventObserver =
+        LifecycleEventObserver { _, event ->
+            // При запуске onCreate() поток запускается
+            // При запуске onDestroy() поток завершается
+            when (event) {
+                Lifecycle.Event.ON_CREATE -> {
+                    Log.i(TAG, "Starting background thread")
+                    start()
+                    looper
+                }
+
+                Lifecycle.Event.ON_DESTROY -> {
+                    Log.i(TAG, "Destroying background thread")
+                    quit()
+                }
+
+                else -> println("Background thread is working")
+            }
+        }
 
     private var hasQuit = false
 
@@ -58,24 +76,6 @@ class ThumbnailDownloader<in T> : HandlerThread(TAG), LifecycleObserver {
     override fun quit(): Boolean {
         hasQuit = true
         return super.quit()
-    }
-
-    // аннотация @OnLifecycleEvent(Lifecycle.Event) позволяет ассоциировать функцию в классе
-    // с обратным вызовом жизненного цикла. При вызове функции onCreate() вызывается функция setup().
-    // функция start() запускает поток
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun setup() {
-        Log.i(TAG, "Starting background thread")
-        start()
-        looper
-    }
-
-    // При вызове функции onDestroy() вызывается функция tearDown()
-    // Функция quit() завершает поток
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun tearDown() {
-        Log.i(TAG, "Destroying background thread")
-        quit()
     }
 
     fun queueThumbnail(target: T, url: String) {

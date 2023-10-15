@@ -35,7 +35,7 @@ class PhotoGalleryFragment : Fragment() {
          * на получение обратных вызовов жизненного цикла фрагмента.
          * При вызове функции onCreate() вызывается функция ThumbnailDownloader.setup() */
 
-        lifecycle.addObserver(thumbnailDownloader)
+        lifecycle.addObserver(thumbnailDownloader.fragmentLifecycleObserver)
 
     }
 
@@ -67,7 +67,7 @@ class PhotoGalleryFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        lifecycle.removeObserver(thumbnailDownloader)
+        lifecycle.removeObserver(thumbnailDownloader.fragmentLifecycleObserver)
     }
 
     private class PhotoHolder(private val itemImageView: ImageView) :
