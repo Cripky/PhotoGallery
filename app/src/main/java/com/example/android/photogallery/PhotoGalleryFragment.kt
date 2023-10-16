@@ -1,8 +1,10 @@
 package com.example.android.photogallery
 
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.photogallery.api.PhotoGalleryViewModel
-
-private const val TAG = "PhotoGalleryFragment"
 
 class PhotoGalleryFragment : Fragment() {
 
@@ -29,7 +29,13 @@ class PhotoGalleryFragment : Fragment() {
 
         photoGalleryViewModel = ViewModelProvider(this)[PhotoGalleryViewModel::class.java]
 
-        thumbnailDownloader = ThumbnailDownloader()
+        // Handler для главного потока
+        val responseHandler = Handler()
+        // анонимная функция для обработки загруженного изображения после завершения загрузки
+        thumbnailDownloader = ThumbnailDownloader(responseHandler) { photoHolder, bitmap ->
+            val drawable = BitmapDrawable(resources, bitmap)
+            photoHolder.bindDrawable(drawable)
+        }
 
         /** Вызов lifecycle.addObserver() подписывает экземпляр загрузчика эскизов
          * на получение обратных вызовов жизненного цикла фрагмента */
@@ -43,6 +49,7 @@ class PhotoGalleryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewLifecycleOwner.lifecycle.addObserver(thumbnailDownloader.viewLifecycleObserver)
         val view = inflater.inflate(R.layout.fragment_photo_gallery, container, false)
 
         photoRecyclerView = view.findViewById(R.id.photo_recycler_view)
@@ -58,6 +65,11 @@ class PhotoGalleryFragment : Fragment() {
         photoGalleryViewModel.galleryItemLiveData.observe(viewLifecycleOwner) { galleryItems ->
             photoRecyclerView.adapter = PhotoAdapter(galleryItems)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewLifecycleOwner.lifecycle.removeObserver(thumbnailDownloader.viewLifecycleObserver)
     }
 
     /** Функция lifecycle.removeObserver() в onDestroy() вызывается для
