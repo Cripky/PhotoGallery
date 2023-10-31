@@ -148,6 +148,7 @@ class PhotoGalleryFragment : Fragment() {
                     WorkManager.getInstance().cancelUniqueWork(POLL_WORK)
                     QueryPreferences.setPolling(requireContext(), false)
                 } else {
+                    // ограничения перед выполнением запроса (подключение к сети без измерения трафика)
                     val constraints = Constraints.Builder()
                         .setRequiredNetworkType(NetworkType.UNMETERED)
                         .build()

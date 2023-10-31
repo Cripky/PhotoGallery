@@ -9,13 +9,16 @@ private const val PREF_SEARCH_QUERY = "searchQuery"
 private const val PREF_LAST_RESULT_ID = "lastResultId"
 private const val PREF_IS_POLLING = "isPolling"
 
+// shared preferences - общие настройки
 object QueryPreferences {
 
+    // получить сохраненный запрос
     fun getStoredQuery(context: Context): String {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getString(PREF_SEARCH_QUERY, "")!!
     }
 
+    // установить сохраненный запрос
     fun setStoredQuery(context: Context, query: String) {
         PreferenceManager.getDefaultSharedPreferences(context)
             .edit {

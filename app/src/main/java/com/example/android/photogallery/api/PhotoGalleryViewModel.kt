@@ -18,6 +18,7 @@ class PhotoGalleryViewModel(private val app: Application) : AndroidViewModel(app
     private val flickrRepository = FlickrRepository()
     private val mutableSearchTerm = MutableLiveData<String>()
 
+    // свойство для открытия поисковой фразы, которая отображается в SearchView
     val searchTerm: String
         get() = mutableSearchTerm.value ?: ""
 

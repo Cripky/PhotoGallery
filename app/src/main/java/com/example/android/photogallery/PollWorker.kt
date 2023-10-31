@@ -11,7 +11,7 @@ import androidx.work.WorkerParameters
 
 private const val TAG = "PollWorker"
 
-// класс для выполения работы в фоне
+// класс для определения есть ли на ресурсе новые фотографии. Выполняется в фоне.
 class PollWorker(val context: Context, workerParams: WorkerParameters) :
     Worker(context, workerParams) {
 
