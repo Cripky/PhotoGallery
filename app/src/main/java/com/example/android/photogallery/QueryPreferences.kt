@@ -3,7 +3,6 @@ package com.example.android.photogallery
 import android.content.Context
 import android.preference.PreferenceManager
 import androidx.core.content.edit
-import androidx.work.impl.model.Preference
 
 private const val PREF_SEARCH_QUERY = "searchQuery"
 private const val PREF_LAST_RESULT_ID = "lastResultId"
